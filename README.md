@@ -121,3 +121,13 @@ Before updating this documentation repository framework, let me know how you wou
 * I can generate a **Markdown matrix table** tracking the explicit micro-batch sizes, global batch thresholds, and gradient accumulation frequencies utilized by leading foundational repositories to manage distributed data clusters [INDEX: 15, 22].
 * I can write a detailed technical explanation focusing on **how to balance Gradient Accumulation Steps with Tensor Parallelism (TP) scale factors** smoothly during large-scale pre-training runs.
 
+##  Star History
+<div align="center">
+<a href="https://www.star-history.com/?repos=ishandutta2007%2FAwesome-Gradient-Accumulation&type=date&legend=bottom-right">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ishandutta2007/Awesome-Gradient-Accumulation&type=date&theme=dark&legend=bottom-right" />
+<source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ishandutta2007/Awesome-Gradient-Accumulation&type=date&legend=bottom-right" />
+<img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ishandutta2007/Awesome-Gradient-Accumulation&type=date&legend=bottom-right" />
+</picture>
+</a>
+</div>
