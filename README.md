@@ -13,7 +13,10 @@ The technical implementation of gradient aggregation has transitioned from rigid
 
 
 ```mermaid
-[Single-Node Sequential Loops] ───> [Synchronous 1F1B (GPipe, 2019)] ───> [ZeRO Sharded Reduction (2020)] ───> [Asynchronous FSDP Overlaps (Present)](Local Memory Bound Data Gates)       (Pipelined Micro-Batch Accumulate)       (Fused Reduce-Scatter State Sharding)     (Communication-Hidden Gradient Streams)
+flowchart LR
+    A["Single-Node Sequential Loops<br>(Local Memory Bound Data Gates)"] --> B["Synchronous 1F1B (GPipe, 2019)<br>(Pipelined Micro-Batch Accumulate)"]
+    B --> C["ZeRO Sharded Reduction (2020)<br>(Fused Reduce-Scatter State Sharding)"]
+    C --> D["Asynchronous FSDP Overlaps (Present)<br>(Communication-Hidden Gradient Streams)"]
 ```
 
 
@@ -54,7 +57,17 @@ To synchronize sharded data streams smoothly without triggering cluster-wide har
 
 
 ```mermaid
-Distributed Gradient Accumulation MatrixMini-Batch (Global Scale: 1024) ───> Fractured into 4 StepsStep 0: │ Forward (Size: 256) │ ──> │ Backward │ ──> [Cache Gradient Shard] (No Weight Update)Step 1: │ Forward (Size: 256) │ ──> │ Backward │ ──> [Sum Gradient Shard]   (No Weight Update)Step 2: │ Forward (Size: 256) │ ──> │ Backward │ ──> [Sum Gradient Shard]   (No Weight Update)Step 3: │ Forward (Size: 256) │ ──> │ Backward │ ──> [Sum Gradient Shard]   ───> [Execute All-Reduce / Step]└────────────────────────────────────────────────────────────────────────┘
+flowchart TB
+    Title["Distributed Gradient Accumulation Matrix<br>Mini-Batch (Global Scale: 1024) ───> Fractured into 4 Steps"]
+    Step0["Step 0: │ Forward (Size: 256) │ ──> │ Backward │ ──> [Cache Gradient Shard] (No Weight Update)"]
+    Step1["Step 1: │ Forward (Size: 256) │ ──> │ Backward │ ──> [Sum Gradient Shard] (No Weight Update)"]
+    Step2["Step 2: │ Forward (Size: 256) │ ──> │ Backward │ ──> [Sum Gradient Shard] (No Weight Update)"]
+    Step3["Step 3: │ Forward (Size: 256) │ ──> │ Backward │ ──> [Sum Gradient Shard] ───> [Execute All-Reduce / Step]"]
+
+    Title --> Step0
+    Step0 --> Step1
+    Step1 --> Step2
+    Step2 --> Step3
 ```
 
 
