@@ -36,15 +36,15 @@ The technical implementation of gradient aggregation has transitioned from rigid
 
 Gradient Accumulation frameworks are strictly categorized based on how the accumulated gradient tensors are cached and communicated across distributed cluster nodes.
 
-### A. Vanilla Sequential Accumulation (Single-GPU Tracking)
-*   **Mechanism:** Runs within a single process. It scales the loss value by the inverse of the accumulation steps ($1/N$) to maintain invariant mathematical gradients, recursively calling the backward pass to build up the gradient tensor before the optimizer fires.
-*   **Pros:** Requires zero secondary network orchestration, making it a highly reliable engine for local edge model fine-tuning loops [INDEX: 16].
+- ### A. Vanilla Sequential Accumulation (Single-GPU Tracking)
+	*   **Mechanism:** Runs within a single process. It scales the loss value by the inverse of the accumulation steps ($1/N$) to maintain invariant mathematical gradients, recursively calling the backward pass to build up the gradient tensor before the optimizer fires.
+	*   **Pros:** Requires zero secondary network orchestration, making it a highly reliable engine for local edge model fine-tuning loops [INDEX: 16].
 
-### B. Distributed Synchronous Accumulation (DDP No-Sync Mask)
-*   **Mechanism:** Deployed within PyTorch **DistributedDataParallel (DDP)** clusters [INDEX: 22]. Naive DDP triggers a costly cross-node communication broadcast (`All-Reduce`) at the end of *every single backward pass* to sync gradients [INDEX: 22]. DDP Accumulation uses the `no_sync()` context manager enclave, hard-locking local cards to accumulate gradients invisibly in their local cache buffers, launching a single global `All-Reduce` synchronization step only on the final boundary iteration [INDEX: 22].
+- ### B. Distributed Synchronous Accumulation (DDP No-Sync Mask)
+	*   **Mechanism:** Deployed within PyTorch **DistributedDataParallel (DDP)** clusters [INDEX: 22]. Naive DDP triggers a costly cross-node communication broadcast (`All-Reduce`) at the end of *every single backward pass* to sync gradients [INDEX: 22]. DDP Accumulation uses the `no_sync()` context manager enclave, hard-locking local cards to accumulate gradients invisibly in their local cache buffers, launching a single global `All-Reduce` synchronization step only on the final boundary iteration [INDEX: 22].
 
-### C. Sharded Gradient Accumulation (ZeRO-2 / FSDP)
-*   **Mechanism:** Merges data-sharding with step-accumulation [INDEX: 22]. Individual cards are physically blocked from storing full-model gradient copies [INDEX: 22]. The accumulation loop populates fractioned gradient shards across distributed cards on-the-fly, maximizing VRAM optimization efficiency [INDEX: 22].
+- ### C. Sharded Gradient Accumulation (ZeRO-2 / FSDP)
+	*   **Mechanism:** Merges data-sharding with step-accumulation [INDEX: 22]. Individual cards are physically blocked from storing full-model gradient copies [INDEX: 22]. The accumulation loop populates fractioned gradient shards across distributed cards on-the-fly, maximizing VRAM optimization efficiency [INDEX: 22].
 
 ---
 
