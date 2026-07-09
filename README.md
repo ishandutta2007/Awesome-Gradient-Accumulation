@@ -1,8 +1,12 @@
+<!-- SEO: Gradient Accumulation is a hardware-aware optimization and memory-management paradigm for deep learning, optimizing video RAM, tracking, micro-batches, PyTorch FSDP, DeepSpeed, ZeRO, and foundation model training. -->
 <div align="center">
 <img src="./assets/banner.svg" alt="Awesome Gradient Accumulation Banner" width="800">
 </div>
 
 # 🌟 Awesome-Gradient-Accumulation
+<p align="center">
+<a href="https://github.com/ishandutta2007/Awesome-Awesome-Awesome"><img src="https://img.shields.io/badge/Awesome-%E2%9C%94-blueviolet?style=flat-square&logo=github" alt="Awesome"/></a><a href="https://discord.gg/jc4xtF58Ve"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" /></a>
+</p>
 ## 🧠 Gradient Accumulation in AI: History, Progression, Variants, & Applications
 
 **Gradient Accumulation** is a hardware-aware optimization and memory-management paradigm designed to simulate large training batch sizes on physical hardware cluster configurations with restricted Video RAM (VRAM) bounds [INDEX: 22]. In the optimization of deep neural networks, large mini-batch sizes (e.g., thousands of text sequences or high-resolution images) are mathematically necessary to stabilize gradient tracking, suppress statistical noise, and accelerate convergence toward a clean local minimum [INDEX: 15, 16]. 
